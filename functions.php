@@ -73,18 +73,64 @@ function getSMS($msisdn, $timepicker = 19700101010001, $ctlg = 2, $dFlg = 0, $eN
         "srt"=>"0",
         "t"=>""
     ];
-    $data = array2xml($ar);
+    $data = array2xml("getUniMsg", $ar);
     $resp = curl("msg",["type"=>"application/xml","data"=>$data]);
     $class = new SimpleXMLElement($resp);
     $detox = xml2array($class);
     return $detox['uniMsgSet']['msgLst']['uniMsg'];
 }
-function array2xml($data = array()) {
-    $begin = "<getUniMsg>".PHP_EOL;
+function sendSMS($from, $to, $text) {
+    /* *
+<sendSMS>
+    <sendSMSParam>
+        <attime></attime>
+        <cpId></cpId>
+        <dlvType>0</dlvType>
+        <dispType>0</dispType>
+        <flashflag>0</flashflag>
+        <ctn>test1234567890-test1234567890-</ctn>
+        <recver length="1">
+            <item>+79222909090</item>
+        </recver>
+        <sender>79292636409</sender>
+        <serviceType></serviceType>
+        <sign></sign>
+        <smstype>1</smstype>
+        <type>0</type>
+    </sendSMSParam>
+</sendSMS>
+
+*/
+    $data = [
+        "sendSMSParam" => [
+            "attime"=>"",
+            "cpId"=>"",
+            "dlvType"=>"0",
+            "dispType"=>"0",
+            "flashflag"=>"0",
+            "ctn"=>$text,
+            "recever"=>[
+                "item"=>$to
+            ],
+            "sender"=>$from,
+            "serviceType"=>"",
+            "sign"=>"",
+            "smstype"=>"1",
+            "type"=>"0"
+        ]
+    ];
+    return array2xml("sendSMS", $data);
+
+}
+function array2xml($start, $data = array()) {
+    if ($start!=="none") $begin = "<{$start}>".PHP_EOL;
     foreach($data as $k=>$v) {
-        $begin .= "<{$k}>{$v}</{$k}>".PHP_EOL;
+        if (is_array($v)) $v = array2xml("none", $v);
+        /* антибаг от smsок */
+        if ($k == "recever") $begin .= "<{$k} length=\"".count($v)."\">{$v}</{$k}>".PHP_EOL;
+        else $begin .= "<{$k}>{$v}</{$k}>".PHP_EOL;
     }
-    $begin .= "</getUniMsg>";
+    if ($start!=="none") $begin .= "</{$start}>";
     return $begin;
 }
 function xml2array($data) {
