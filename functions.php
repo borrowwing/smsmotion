@@ -80,27 +80,6 @@ function getSMS($msisdn, $timepicker = 19700101010001, $ctlg = 2, $dFlg = 0, $eN
     return $detox['uniMsgSet']['msgLst']['uniMsg'];
 }
 function sendSMS($from, $to, $text) {
-    /* *
-<sendSMS>
-    <sendSMSParam>
-        <attime></attime>
-        <cpId></cpId>
-        <dlvType>0</dlvType>
-        <dispType>0</dispType>
-        <flashflag>0</flashflag>
-        <ctn>test1234567890-test1234567890-</ctn>
-        <recver length="1">
-            <item>+79222909090</item>
-        </recver>
-        <sender>79292636409</sender>
-        <serviceType></serviceType>
-        <sign></sign>
-        <smstype>1</smstype>
-        <type>0</type>
-    </sendSMSParam>
-</sendSMS>
-
-*/
     $data = [
         "sendSMSParam" => [
             "attime"=>"",
