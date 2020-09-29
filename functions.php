@@ -2,11 +2,11 @@
 session_start();
 if (!isset($_SESSION['key'])) $_SESSION['key'] = md5(mt_rand(0,20000).mt_rand(0,10000).mt_rand(0,90000));
 echo "<pre>".print_r($_SESSION,true)."</pre>";
-function curl($method, $data = array()) {
+function curl($method, $data = array(), $custom_prepend = "https://emotion.megalabs.ru/api/v15/") {
 	global $_SESSION;
     $ch = curl_init();
     $settings = array(
-        CURLOPT_URL => "https://emotion.megalabs.ru/api/v15/{$method}",
+        CURLOPT_URL => "{$custom_prepend}{$method}",
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
         CURLOPT_MAXREDIRS => 10,
@@ -98,7 +98,8 @@ function sendSMS($from, $to, $text) {
             "type"=>"0"
         ]
     ];
-    return array2xml("sendSMS", $data);
+    $a2x = array2xml("sendSMS", $data);
+    return curl("msg",$data);
 
 }
 function array2xml($start, $data = array()) {
@@ -115,5 +116,14 @@ function array2xml($start, $data = array()) {
 function xml2array($data) {
     if (is_object($data)) $data = get_object_vars($data);
     return (is_array($data)) ? array_map(__FUNCTION__,$data) : $data;
+}
+
+function getBalance($msisdn, $password) {
+    // $resp = curl("sm/client/balance?login={$msisdn}@multifon.ru&password={$password}",[],"");
+    $resp = file_get_contents("https://emotion.megalabs.ru/sm/client/balance?login={$msisdn}@multifon.ru&password={$password}");
+    $xml = new SimpleXMLElement($resp);
+    $x2a = xml2array($xml);
+    // return $x2a['response']['balance'];
+    return $x2a['balance'];
 }
 ?>
