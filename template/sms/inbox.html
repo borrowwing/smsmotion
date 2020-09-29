@@ -1,0 +1,27 @@
+<h3>Входящие сообщения</h3> | <a href="?out">Исходящие</a>
+<table>
+    <tr>
+        <td>Дата и время</td>
+        <td>От кого?</td>
+        <td>Кому?</td>
+        <td>Текст</td>
+        <td>Тип сообщения</td>
+    </tr>
+    <?php foreach($msgs as $msg) {?>
+    <tr>
+        <td>
+            <?=date("d.m.Y H:i:s",strtotime($msg['t']));?>
+        </td>
+        <td>
+            <?=$msg['snd'];?>
+        </td>
+        <td>
+            <?=$msg['rcv'];?>
+        </td>
+        <td>
+            <?=$msg['ttl'];?>
+        </td>
+        <td>dunno</td>
+    </tr>
+    <?php } ?>
+</table>

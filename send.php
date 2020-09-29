@@ -13,6 +13,9 @@ else {
         $to = $_POST['sms_to'];
         $text = $_POST['sms_text'];
         $mid = sendSMS($_SESSION['msisdn'],$to,$text);
-        echo $mid;
+        if ($mid["@attributes"]['resultCode']=="0") {
+            echo "SMS отправлено. Проверьте получателя.";
+            require_once 'template/sms/inbox.html';
+        }
     }
 }

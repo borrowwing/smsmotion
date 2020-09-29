@@ -88,7 +88,7 @@ function sendSMS($from, $to, $text) {
             "dispType"=>"0",
             "flashflag"=>"0",
             "ctn"=>$text,
-            "recever"=>[
+            "recver"=>[
                 "item"=>$to
             ],
             "sender"=>$from,
@@ -99,7 +99,7 @@ function sendSMS($from, $to, $text) {
         ]
     ];
     $a2x = array2xml("sendSMS", $data);
-    return curl("msg",$data);
+    return xml2array(new SimpleXMLElement(curl("msg",["type"=>"application/xml","data"=>$a2x])));
 
 }
 function array2xml($start, $data = array()) {
@@ -107,7 +107,7 @@ function array2xml($start, $data = array()) {
     foreach($data as $k=>$v) {
         if (is_array($v)) $v = array2xml("none", $v);
         /* антибаг от smsок */
-        if ($k == "recever") $begin .= "<{$k} length=\"".count($v)."\">{$v}</{$k}>".PHP_EOL;
+        if ($k == "recver") $begin .= "<{$k} length=\"".count($v)."\">{$v}</{$k}>".PHP_EOL;
         else $begin .= "<{$k}>{$v}</{$k}>".PHP_EOL;
     }
     if ($start!=="none") $begin .= "</{$start}>";
@@ -119,11 +119,9 @@ function xml2array($data) {
 }
 
 function getBalance($msisdn, $password) {
-    // $resp = curl("sm/client/balance?login={$msisdn}@multifon.ru&password={$password}",[],"");
     $resp = file_get_contents("https://emotion.megalabs.ru/sm/client/balance?login={$msisdn}@multifon.ru&password={$password}");
     $xml = new SimpleXMLElement($resp);
     $x2a = xml2array($xml);
-    // return $x2a['response']['balance'];
     return $x2a['balance'];
 }
 ?>
