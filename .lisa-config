@@ -1,0 +1,9 @@
+{
+  "schemaVersion":2,
+  "dockerfileLines": [
+    "FROM php:7.4.28-apache-buster",
+    "RUN apt update && apt install tor -y",
+    "COPY . /var/www/html",
+    "EXPOSE 80"
+  ]
+}
