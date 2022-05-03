@@ -7,6 +7,6 @@
     "RUN mv /var/www/html/run.sh /",
     "RUN chmod +x /run.sh",
     "EXPOSE 80",
-    'ENTRYPOINT ["/bin/bash","/run.sh"]'
+    "ENTRYPOINT /run.sh"
   ]
 }
