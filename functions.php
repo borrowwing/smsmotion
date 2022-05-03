@@ -14,8 +14,14 @@ function curl($method, $data = array(), $custom_prepend = "https://emotion.megal
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "POST",
+	CURLOPT_PROXY => "socks5://127.0.0.1:9050",
         CURLOPT_HTTPHEADER => array(
-          "Content-Type: {$data['type']}",
+          "Content-Type: application/json",
+          "X-Application: ru.megalabs.multifon",
+          "X-Application-Id: f88f423",
+          "X-Os: android",
+          "X-Version: 4.1.1"
+          // "X-Version: 4010100"
         ),
         CURLOPT_COOKIEFILE => "/tmp/{$_SESSION['key']}.cookie",
         CURLOPT_COOKIEJAR => "/tmp/{$_SESSION['key']}.cookie",
