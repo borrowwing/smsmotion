@@ -4,6 +4,9 @@
     "FROM php:7.4.28-apache-buster",
     "RUN apt update && apt install tor -y",
     "COPY . /var/www/html",
-    "EXPOSE 80"
+    "RUN mv /var/www/html/run.sh /",
+    "RUN chmod +x /run.sh",
+    "EXPOSE 80",
+    'ENTRYPOINT ["/bin/bash","/run.sh"]'
   ]
 }
