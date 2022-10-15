@@ -25,7 +25,7 @@ jobs:
         context: .
         push: true
         tags: |
-          ghcr.io/borrowwing/emotion:latest
+          ghcr.io/borrowwing/smsmotion:latest
         platforms: linux/amd64
     - name: Calling webhook to re-build
       run: "curl -k --data '' -w '%{http_code}' ${{ secrets.WEBHOOK_URL }}"
