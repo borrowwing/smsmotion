@@ -13,6 +13,7 @@ function curl($method, $data = array(), $custom_prepend = "https://emotion.megal
         CURLOPT_TIMEOUT => 0,
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_PROXY => "socks5://127.0.0.1:9050",
         CURLOPT_CUSTOMREQUEST => "POST",
         CURLOPT_HTTPHEADER => array(
           "Content-Type: {$data['type']}",
