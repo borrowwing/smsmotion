@@ -24,7 +24,7 @@ function curl($method, $data = array(), $custom_prepend = "https://emotion.megal
           "X-Application-Id: f88f423",
           "X-Os: android",
           "X-Version: 4.1.1"
-          // "X-Vers
+	),
         CURLOPT_COOKIEFILE => "/tmp/{$_SESSION['key']}.cookie",
         CURLOPT_COOKIEJAR => "/tmp/{$_SESSION['key']}.cookie",
     );
